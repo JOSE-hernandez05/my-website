@@ -143,13 +143,13 @@
                 <a href="images/my-cv.pdf" download class="btn btn2">Download Cv</a>
             </div>
             <div class="contact-right">
-                <form name="submit-to-google-sheet">
+                <form name ="submit-to-google-sheet">
                     <input type="text" name="Name" placeholder="Your Full Name" required>
-                    <input type="text" name="Email" Email placeholder = "Example@email.com" required>
+                    <input type="email" name="Email" Email placeholder = "Example@email.com" required>
                     <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
                     <button type="submit" class="btn btn2">Submit</button>
                 </form>
-                <span id="msg">hello</span>
+                <span id="msg"></span>
             </div>
         </div>
     </div>
@@ -184,15 +184,21 @@
         sidemenu.style.right = "-200px"
     }
 </script>
-<!--https://github.com/jamiewilson/form-to-google-sheets--->
 <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwmN-fA_DcLs6SUOFAF_crnefZ2NyMaOrifu6MRZOnQyxbO8OuflOB8Oa52XIqZCr97/exec'
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx_hk9mRWx_4SB45v4LAzvOnkTd0gbmXn1o5BYIp2w448fZojV71AWvN6Q1Pq0kHT9D/exec'
     const form = document.forms['submit-to-google-sheet']
-  
+    const msg = document.getElementById("msg")
+
     form.addEventListener('submit', e => {
       e.preventDefault()
       fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-        .then(response => console.log('Success!', response))
+        .then(response => {
+            msg.innerHTML = "Message Sent successfully"
+            setTimeout(function(){
+                msg.innerHTML = ""
+            },5000)
+            form.reset()
+        })
         .catch(error => console.error('Error!', error.message))
     })
   </script>
